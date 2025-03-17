@@ -10,8 +10,11 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
@@ -22,6 +25,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -39,10 +44,10 @@ class MainActivity : ComponentActivity() {
                        color = MaterialTheme.colorScheme.background
                    )
                    {
-                       greetingImage(
-                           message = "ola",
-                           from = "From junior"
-                       )
+                       greetingImage(title = stringResource(R.string.title),
+                           firstText = stringResource(R.string.firstText),
+                           secondText = stringResource(R.string.secondText))
+
 
             }
         }
@@ -52,52 +57,158 @@ class MainActivity : ComponentActivity() {
 
 
 @Composable
-fun greetingImage(message: String, from: String, modifier: Modifier = Modifier){
-    val image = painterResource(R.drawable.joinha)
+fun greetingImage(title: String, firstText: String
+                  , modifier: Modifier = Modifier,
+                  secondText: String){
+    val image = painterResource(R.drawable.bg_compose_background)
 
-    Box(modifier) {
+    Column (modifier = Modifier) {
         Image(
             painter = image,
             contentDescription = null,
-            contentScale = ContentScale.Crop,
-            alpha = 0.5F
+            modifier = Modifier.padding(bottom = 10.dp)
+
+
         )
-        GreetingText(message, from,
-            modifier = Modifier.fillMaxSize()
-                .padding(8.dp)
-                .background(color = Color.Cyan))
+        Column(modifier) {
+            Text(
+                text = stringResource(R.string.title),
+                fontSize = 24.sp,
+                modifier = Modifier.padding(16.dp)
+
+            )
+
+            Text(
+                text = stringResource(R.string.firstText),
+                fontSize = 20.sp,
+                modifier = Modifier.padding(start = 16.dp, end = 16.dp)
+            )
+
+            Text(
+                text = stringResource(R.string.secondText),
+                fontSize = 20.sp,
+                modifier = Modifier.padding(16.dp),
+                textAlign = TextAlign.Justify
+            )
+
+        }
+
     }
 }
 
 @Composable
-fun GreetingText(message: String,from: String,modifier: Modifier = Modifier){
+fun taskManganager(){
+    Column (modifier = Modifier
+        .fillMaxWidth()
+        .fillMaxHeight(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally){
+        val image = painterResource(R.drawable.ic_task_completed)
 
-    Column(modifier = Modifier.padding(8.dp),
-        verticalArrangement = Arrangement.Center) {
-        Text(
-            text = message,
-            fontSize = 10.sp,
-            lineHeight = 10.sp,
-            textAlign = TextAlign.Center
+        Image(
+            painter = image,
+            contentDescription = null
         )
 
+
         Text(
-            text = from,
-            fontSize = 7.sp,
+            text = stringResource(R.string.taskComplete),
+            fontWeight = FontWeight.Bold,
             modifier = Modifier
-                .padding(16.dp)
-                .align(alignment = Alignment.End)
+                .padding(top = 24.dp, bottom = 8.dp),
+
+        )
+        Text(
+            text = stringResource(R.string.Nice),
+            fontSize = 16.sp
         )
     }
 
+
+
+
 }
+
+
+@Composable
+fun compp(){
+    Column(Modifier.fillMaxWidth()) {
+        Row (Modifier.weight(1f)){
+            infoCad(
+                title = stringResource(R.string.first_title),
+                description = stringResource(R.string.first_description),
+                backgroudColor = Color(0xFFD0BCFF),
+                modifier = Modifier.weight(1f)
+            )
+
+            infoCad(
+                title = stringResource(R.string.second_title),
+                description = stringResource(R.string.second_description),
+                backgroudColor = Color(0xFFEADDFF),
+                modifier = Modifier.weight(1f)
+            )
+
+        }
+
+        Row (Modifier.weight(1f)){
+            infoCad(
+                title = stringResource(R.string.third_title),
+                description = stringResource(R.string.third_description),
+                backgroudColor = Color(0xFFB69DF8),
+                modifier = Modifier.weight(1f)
+            )
+
+            infoCad(
+                title = stringResource(R.string.fourth_title),
+                description = stringResource(R.string.fourth_description),
+                backgroudColor = Color(0xFFF6EDFF),
+                modifier = Modifier.weight(1f)
+            )
+
+        }
+
+    }
+}
+
+@Composable
+fun infoCad(
+    title: String,
+    description: String,
+    backgroudColor: Color,
+    modifier: Modifier = Modifier
+){
+    Column(modifier = modifier
+        .fillMaxSize()
+        .background(backgroudColor)
+        .padding(16.dp),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally){
+
+        Text(
+            text = title,
+            modifier = Modifier.padding(bottom = 16.dp),
+            fontWeight = FontWeight.Bold
+        )
+
+        Text(
+            text = description,
+            textAlign = TextAlign.Justify
+        )
+
+    }
+
+}
+
+
+
 
 
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {
     MyApplicationTheme {
-        greetingImage(message = "Ola, tudo bem ?", from = "From Admar")
+        compp()
+
 
     }
 }
